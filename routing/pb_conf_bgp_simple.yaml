@@ -1,0 +1,19 @@
+---
+- name: configure bgp (basic) 
+  hosts: routers
+  gather_facts: false
+  tasks: 
+    - name: configure cisco
+      ios_config:
+        src: "templates/cisco_bgp.j2"
+      when: "'cisco' in group_names"
+
+
+    - name: configure junOS
+      template:
+        src: "templates/cisco_bgp.j2"
+        dest: "./{{ inventory_hostname }}.cfg"
+      when: "'juniper' in group_names"
+
+  
+      

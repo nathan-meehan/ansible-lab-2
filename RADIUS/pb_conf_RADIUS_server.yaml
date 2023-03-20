@@ -1,0 +1,47 @@
+---
+- name: conf RADIUS server on Ubuntu
+  gather_facts: false
+  hosts:
+  tasks:
+    - name: update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+      become: true
+    
+    - name: install freeradius
+      apt:
+        name: freeradius
+        install_recommends: yes
+        state: latest
+      become: true
+
+    - name: generate client configuration
+      template:
+        src: clients.j2
+        dest: /etc/freeradius/3.0/clients.conf
+      become: true
+      loop: "{{ clients }}" 
+      
+
+    - name: generate users file
+      template:
+        src: users.j2
+        dest: /etc/freeradius/3.0/users
+      become: true
+      loop: "{{ users }}"
+
+    - name: allow freeradius ufw
+      community.general.ufw:
+        rule: allow
+        proto: udp
+        port: "{{ radius_port }}"
+      become: true
+        
+    - name: restart service 
+      ansible.builtin.systemd:
+        state: restarted
+        daemon_reload: true
+        name: freeradius
+      become: true
+

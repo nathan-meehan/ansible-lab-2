@@ -1,0 +1,17 @@
+---
+- name: simple is-is config
+  gather_facts: False
+  hosts: routers
+  vars:
+    isis_net: 
+    isis_level: 1
+
+  tasks:
+
+  # test if template works first ^
+    - name: send 
+      template:
+        src: "templates/is-is.j2"
+        dest: ./
+      loop: "{{ interfaces }}"
+      

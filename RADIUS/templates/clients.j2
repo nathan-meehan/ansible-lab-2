@@ -1,0 +1,10 @@
+{% for client in clients %}
+client {{ client.name }} {
+        ipaddr          = {{ client.ipaddr }}
+        proto           = {{ client.protocol }}
+        secret          = {{ client.secret }} 
+        shortname       = {{ client.shortname }}
+        nastype         = {{ client.nastype }}
+}
+
+{% endfor %}

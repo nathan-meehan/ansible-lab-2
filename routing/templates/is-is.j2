@@ -1,0 +1,13 @@
+router isis
+  net {{ isis_net }}
+  is-type {{ isis_level }}
+{% if log %}  
+  log-adjacency-changes
+{% end if %}
+
+{% for item in interfaces %}
+interface {{ item.name }}
+ip router isis
+
+{% endfor %}
+

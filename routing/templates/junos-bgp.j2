@@ -1,0 +1,16 @@
+routing-options {
+
+    router-id {{ router_id }};
+    autonomous-system {{ as_num }};
+}
+protocols {
+    bgp {
+{% for group in bgp_groups %}    
+        group {{ group.name }} {
+            type {{ group.bgp_type }};
+            peer-as {{ group.peer_as }};
+{% if item.local_addr %}
+            local-address {{ item.local_addr }};
+{% endif %}
+            neighbor {{ item.neighbor }};
+        }

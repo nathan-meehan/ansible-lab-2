@@ -1,0 +1,53 @@
+---
+- name: test if aws works
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: get instances facts
+      amazon.aws.ec2_instance_info:
+        region: 'us-east-1'
+      register: aws
+
+    - set_fact:
+        aws: "{{ aws['instances'] }}"
+
+
+    - name: line insert at the end
+      lineinfile:
+        path: ./aws-ec2-facts.csv
+        line: |
+          {{ item.tags['Name'] }}, {{ item.instance_id }}, {{ item.instance_type }}, {{ item.platform_details }}, {{ item.state['name'] }}
+        create: true
+      loop: "{{ aws }}"
+    
+    - name: remove blank lines 
+      ansible.builtin.replace:
+          path: ./aws-ec2-facts.csv
+          regexp: '^(?:[\t ]*(?:\r?\n|\r))+'
+          replace: ''
+
+
+    - name: add header
+      lineinfile:
+        path: ./aws-ec2-facts.csv
+        insertbefore: BOF
+        line: name, instance id, instance type, platform, state
+       
+
+    - name: clean brackets
+      replace:
+        path: ./aws-ec2-facts.csv
+        regexp: '\[|\]|"'
+        replace: ''      
+
+    - name: clean quotes
+      replace:
+        path: ./aws-ec2-facts.csv
+        regexp: "'"
+        replace: ''
+
+
+    - name: print return
+      debug:
+        msg: "{{ aws }}"
+      

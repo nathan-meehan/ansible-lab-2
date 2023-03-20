@@ -1,0 +1,10 @@
+{% for user in users %}
+    {{ user.username }}  Cleartext-Password := {{ user.clear_password }}
+
+{% endfor %}
+
+{% if defaults is defined %}
+{% for default in defaults %}
+    DEFAULT   {{ default.type }} = {{ default.type_attr }}
+{% endfor  %}
+{% endif %}
