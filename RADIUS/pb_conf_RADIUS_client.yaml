@@ -1,6 +1,6 @@
 ---
-- name: configure cisco radius clients
-  hosts: cisco
+- name: configure cisco RADIUS clients
+  hosts: 
   gather_facts: false
   tasks:
 
@@ -11,13 +11,13 @@
         password_type: password
       loop: "{{ users }}"
 
-    - name: configure radius client
+    - name: configure RADIUS client
       ios_config:
         lines:
         - aaa new-model
         - aaa authentication login default group radius local
 
-    - name: configure radius client
+    - name: configure RADIUS servers
       ios_config:
         lines:
         - radius-server host {{ item.radius_server_ip }} auth-port {{ item.auth-port }} acct-port {{ item.acct_port }} key {{ item.key }}

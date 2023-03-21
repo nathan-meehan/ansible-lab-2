@@ -1,8 +1,8 @@
 router bgp {{ as_num }}
- bgp router-id {{ router_id }}
- bgp log-neighbor-changes
+  bgp router-id {{ router_id }}
+  bgp log-neighbor-changes
 {% for item in bgp_groups %}
- neighbor {{ item.neighbor }} remote-as {{ item.peer_as }}
+  neighbor {{ item.neighbor }} remote-as {{ item.peer_as }}
 {% endfor %}
  !
  address-family ipv4

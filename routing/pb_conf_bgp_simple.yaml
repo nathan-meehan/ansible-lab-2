@@ -5,14 +5,14 @@
   tasks: 
     - name: configure cisco
       ios_config:
-        src: "templates/cisco_bgp.j2"
+        src: "./templates/cisco_bgp.j2"
       when: "'cisco' in group_names"
 
 
     - name: configure junOS
       template:
         src: "templates/cisco_bgp.j2"
-        dest: "./{{ inventory_hostname }}.cfg"
+        dest: "./{{ inventory_hostname }}.conf"
       when: "'juniper' in group_names"
 
   

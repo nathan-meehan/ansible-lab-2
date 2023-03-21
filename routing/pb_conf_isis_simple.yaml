@@ -8,10 +8,9 @@
 
   tasks:
 
-  # test if template works first ^
-    - name: send 
+    - name: generate is-is config 
       template:
-        src: "templates/is-is.j2"
+        src: "./templates/is-is.j2"
         dest: ./
       loop: "{{ interfaces }}"
       

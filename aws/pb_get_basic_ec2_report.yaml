@@ -1,9 +1,9 @@
 ---
-- name: test if aws works
+- name: get simple report about ec2 instances
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: get instances facts
+    - name: get instances
       amazon.aws.ec2_instance_info:
         region: 'us-east-1'
       register: aws
@@ -12,7 +12,7 @@
         aws: "{{ aws['instances'] }}"
 
 
-    - name: line insert at the end
+    - name: insert line
       lineinfile:
         path: ./aws-ec2-facts.csv
         line: |
@@ -26,14 +26,12 @@
           regexp: '^(?:[\t ]*(?:\r?\n|\r))+'
           replace: ''
 
-
     - name: add header
       lineinfile:
         path: ./aws-ec2-facts.csv
         insertbefore: BOF
         line: name, instance id, instance type, platform, state
        
-
     - name: clean brackets
       replace:
         path: ./aws-ec2-facts.csv
@@ -46,8 +44,4 @@
         regexp: "'"
         replace: ''
 
-
-    - name: print return
-      debug:
-        msg: "{{ aws }}"
       
