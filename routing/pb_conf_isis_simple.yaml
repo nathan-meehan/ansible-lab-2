@@ -5,7 +5,6 @@
   vars:
     isis_net: 
     isis_level: 1
-
   tasks:
 
     - name: generate is-is config 

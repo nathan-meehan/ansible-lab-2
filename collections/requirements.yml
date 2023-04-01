@@ -1,0 +1,6 @@
+---
+collections:
+  - community.general
+  - cisco.ios
+  - asnible.netcommon
+  - amazon.aws
