@@ -2,9 +2,6 @@
 - name: simple is-is config
   gather_facts: False
   hosts: routers
-  vars:
-    isis_net: 
-    isis_level: 1
   tasks:
 
     - name: generate is-is config 
