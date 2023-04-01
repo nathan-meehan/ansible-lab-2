@@ -3,7 +3,7 @@ router isis
   is-type {{ isis_level }}
 {% if log %}  
   log-adjacency-changes
-{% end if %}
+{% endif %}
 
 {% for item in interfaces %}
 interface {{ item.name }}
